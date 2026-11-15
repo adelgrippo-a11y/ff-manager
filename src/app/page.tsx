@@ -25,8 +25,8 @@ export default function Home() {
     }
   };
 
-  // Mock lineup data
-  const lineup = [
+  // Load saved lineup or fall back to mock
+  const [lineup, setLineup] = useState([
     { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2 },
     { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6 },
     { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3 },
@@ -36,7 +36,27 @@ export default function Home() {
     { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2 },
     { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0 },
     { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0 },
-  ];
+  ]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("ffLineup");
+    if (stored) {
+      try {
+        const data = JSON.parse(stored);
+        if (data.lineup?.length) {
+          setLineup(
+            data.lineup.map((p: any) => ({
+              pos: p.pos,
+              name: p.name,
+              opp: p.team ? `vs ${p.team}` : "",
+              proj: p.projected || 0,
+              current: p.current || 0,
+            }))
+          );
+        }
+      } catch {}
+    }
+  }, []);
 
   const totalProj = lineup.reduce((sum, p) => sum + p.proj, 0);
   const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
@@ -53,7 +73,6 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Sidebar - desktop */}
       <aside className="hidden lg:flex lg:flex-col w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
         <h1 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-8">FF Manager</h1>
         <nav className="space-y-1">
@@ -70,7 +89,6 @@ export default function Home() {
       </aside>
 
       <div className="flex-1 flex flex-col">
-        {/* Header */}
         <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 flex items-center justify-between lg:px-6">
           <div className="flex items-center gap-3">
             <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
@@ -84,9 +102,7 @@ export default function Home() {
           </button>
         </header>
 
-        {/* Main content */}
         <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6 pb-20">
-          {/* Hero - Current Lineup */}
           <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-3 shadow-sm">
             <div className="flex items-start justify-between mb-2">
               <div>
@@ -117,7 +133,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Quick Actions */}
           <section>
             <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -137,7 +152,6 @@ export default function Home() {
           </section>
         </main>
 
-        {/* Bottom nav - mobile, sticky */}
         <nav className="lg:hidden sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex justify-around py-2 text-xs z-10">
           {["League", "Rankings", "Tools", "Streams", "More"].map((item) => (
             <a 
