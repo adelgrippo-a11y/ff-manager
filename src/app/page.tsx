@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [dark, setDark] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const isDark = localStorage.getItem("theme") === "dark" ||
@@ -24,99 +25,123 @@ export default function Home() {
     }
   };
 
-  // Mock league data
-  const league = {
-    name: "Your League",
-    rank: 3,
-    record: "7-3",
-    points: 1245.6,
-    opponent: "Rival Team",
-    opponentPoints: 1189.2,
-  };
+  // Mock lineup data
+  const lineup = [
+    { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2 },
+    { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6 },
+    { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3 },
+    { pos: "WR", name: "T. Hill", opp: "vs BUF", proj: 16.9, current: 9.4 },
+    { pos: "WR", name: "A. St. Brown", opp: "vs CHI", proj: 15.2, current: 11.1 },
+    { pos: "TE", name: "T. Kelce", opp: "vs LV", proj: 12.7, current: 8.8 },
+    { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2 },
+    { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0 },
+    { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0 },
+  ];
+
+  const totalProj = lineup.reduce((sum, p) => sum + p.proj, 0);
+  const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
+
+  const quickActions = [
+    { title: "Power Rankings", desc: "See where you stand", href: "#" },
+    { title: "Start / Sit", desc: "Optimize your lineup", href: "#" },
+    { title: "ROS Rankings", desc: "Rest of season outlook", href: "#" },
+    { title: "NFL Injuries", desc: "Latest updates", href: "#" },
+    { title: "Stream Live", desc: "Games & RedZone", href: "https://www.youtube.com/live/LxJIVjEZJM8" },
+    { title: "Highlights", desc: "Top plays", href: "https://www.nfl.com" },
+    { title: "X Feed", desc: "Live NFL chatter", href: "https://x.com" },
+  ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
-          FF Manager
-        </h1>
-        <button
-          onClick={toggleTheme}
-          className="rounded-full p-2 text-sm font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-          aria-label="Toggle theme"
-        >
-          {dark ? "☀️ Light" : "🌙 Dark"}
-        </button>
-      </header>
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+      {/* Sidebar - desktop */}
+      <aside className="hidden lg:flex lg:flex-col w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
+        <h1 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-8">FF Manager</h1>
+        <nav className="space-y-1">
+          {["My League", "Rankings", "Tools", "Streams", "More"].map((item) => (
+            <a key={item} href="#" className="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">
+              {item}
+            </a>
+          ))}
+        </nav>
+      </aside>
 
-      {/* Main Dashboard */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 space-y-8">
-        <section>
-          <h2 className="text-3xl font-semibold mb-2">Welcome back</h2>
-          <p className="text-slate-600 dark:text-slate-400">
-            Your fantasy football companion
-          </p>
-        </section>
-
-        {/* League Summary Card */}
-        <section className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h3 className="text-xl font-semibold">{league.name}</h3>
-              <p className="text-slate-500 dark:text-slate-400 mt-1">
-                Rank #{league.rank} · {league.record}
-              </p>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
-                {league.points}
-              </div>
-              <div className="text-sm text-slate-500">Total points</div>
-            </div>
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 flex items-center justify-between lg:px-6">
+          <div className="flex items-center gap-3">
+            <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+            <h1 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 lg:hidden">FF Manager</h1>
           </div>
-
-          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
-              This week vs {league.opponent}
-            </p>
-            <div className="flex items-center justify-between text-lg font-semibold">
-              <span>You: {league.points}</span>
-              <span className="text-slate-400">vs</span>
-              <span>{league.opponentPoints}</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Quick Links / Tools */}
-        <section className="grid gap-4 sm:grid-cols-2">
-          <a
-            href="https://www.youtube.com/live/LxJIVjEZJM8"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:border-emerald-500 dark:hover:border-emerald-400 transition group"
+          <button
+            onClick={toggleTheme}
+            className="rounded-full px-3 py-1 text-sm bg-slate-100 dark:bg-slate-800"
           >
-            <h4 className="font-semibold group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-              RedZone Audio
-            </h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Live stream (via Chat Sports on YouTube)
-            </p>
-          </a>
+            {dark ? "☀️" : "🌙"}
+          </button>
+        </header>
 
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
-            <h4 className="font-semibold">League Tools</h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              More features coming soon
-            </p>
-          </div>
-        </section>
-      </main>
+        {/* Main content */}
+        <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6">
+          {/* Hero - Current Lineup */}
+          <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-bold">My Lineup</h2>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Week 11 · vs Rival Team</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{totalCurrent.toFixed(1)}</div>
+                <div className="text-xs text-slate-500">Current</div>
+                <div className="text-sm font-medium mt-1">{totalProj.toFixed(1)} proj</div>
+              </div>
+            </div>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 py-6 text-center text-sm text-slate-500">
-        FF Manager · Fantasy football companion · Links credited to original creators
-      </footer>
+            <div className="space-y-2">
+              {lineup.map((player) => (
+                <div key={player.pos + player.name} className="flex items-center justify-between text-sm py-1.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <span className="w-12 font-mono text-xs font-semibold text-slate-500">{player.pos}</span>
+                    <span className="font-medium">{player.name}</span>
+                    <span className="text-xs text-slate-400">{player.opp}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-semibold">{player.current}</span>
+                    <span className="text-xs text-slate-400 ml-2">/{player.proj}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Quick Actions */}
+          <section>
+            <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {quickActions.map((action) => (
+                <a
+                  key={action.title}
+                  href={action.href}
+                  target={action.href.startsWith("http") ? "_blank" : undefined}
+                  rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-emerald-500 dark:hover:border-emerald-400 transition"
+                >
+                  <div className="font-medium text-sm">{action.title}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{action.desc}</div>
+                </a>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        {/* Bottom nav - mobile */}
+        <nav className="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-around py-2 text-xs">
+          {["League", "Rankings", "Tools", "Streams", "More"].map((item) => (
+            <a key={item} href="#" className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400">
+              {item}
+            </a>
+          ))}
+        </nav>
+      </div>
     </div>
   );
 }
