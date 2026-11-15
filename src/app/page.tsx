@@ -83,30 +83,30 @@ export default function Home() {
         {/* Main content */}
         <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6">
           {/* Hero - Current Lineup */}
-          <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
+          <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+            <div className="flex items-start justify-between mb-3">
               <div>
-                <h2 className="text-2xl font-bold">My Lineup</h2>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">Week 11 · vs Rival Team</p>
+                <h2 className="text-xl font-bold">My Lineup</h2>
+                <p className="text-slate-500 dark:text-slate-400 text-xs">Week 11 · vs Rival Team</p>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{totalCurrent.toFixed(1)}</div>
+                <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{totalCurrent.toFixed(1)}</div>
                 <div className="text-xs text-slate-500">Current</div>
-                <div className="text-sm font-medium mt-1">{totalProj.toFixed(1)} proj</div>
+                <div className="text-xs font-medium">{totalProj.toFixed(1)} proj</div>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               {lineup.map((player) => (
-                <div key={player.pos + player.name} className="flex items-center justify-between text-sm py-1.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
-                  <div className="flex items-center gap-3">
-                    <span className="w-12 font-mono text-xs font-semibold text-slate-500">{player.pos}</span>
+                <div key={player.pos + player.name} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                  <div className="flex items-center gap-2">
+                    <span className="w-10 font-mono text-[10px] font-semibold text-slate-500">{player.pos}</span>
                     <span className="font-medium">{player.name}</span>
-                    <span className="text-xs text-slate-400">{player.opp}</span>
+                    <span className="text-[10px] text-slate-400">{player.opp}</span>
                   </div>
                   <div className="text-right">
                     <span className="font-semibold">{player.current}</span>
-                    <span className="text-xs text-slate-400 ml-2">/{player.proj}</span>
+                    <span className="text-[10px] text-slate-400 ml-1">/{player.proj}</span>
                   </div>
                 </div>
               ))}
