@@ -42,13 +42,13 @@ export default function Home() {
   const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
 
   const quickActions = [
-    { title: "Power Rankings", desc: "See where you stand", href: "#" },
-    { title: "Start / Sit", desc: "Optimize your lineup", href: "#" },
-    { title: "ROS Rankings", desc: "Rest of season outlook", href: "#" },
-    { title: "NFL Injuries", desc: "Latest updates", href: "#" },
+    { title: "Power Rankings", desc: "See where you stand", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
+    { title: "Start / Sit", desc: "Optimize your lineup", href: "https://www.fantasypros.com/nfl/myplaybook/start-sit-assistant.php" },
+    { title: "ROS Rankings", desc: "Rest of season outlook", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
+    { title: "NFL Injuries", desc: "Latest updates", href: "https://www.nfl.com/injuries/" },
     { title: "Stream Live", desc: "Games & RedZone", href: "https://www.youtube.com/live/LxJIVjEZJM8" },
-    { title: "Highlights", desc: "Top plays", href: "https://www.nfl.com" },
-    { title: "X Feed", desc: "Live NFL chatter", href: "https://x.com" },
+    { title: "Highlights", desc: "Top plays", href: "https://www.nfl.com/videos/" },
+    { title: "X Feed", desc: "Live NFL chatter", href: "https://x.com/NFL" },
   ];
 
   return (
@@ -58,7 +58,11 @@ export default function Home() {
         <h1 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-8">FF Manager</h1>
         <nav className="space-y-1">
           {["My League", "Rankings", "Tools", "Streams", "More"].map((item) => (
-            <a key={item} href="#" className="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">
+            <a 
+              key={item} 
+              href={item === "My League" ? "/league" : "#"} 
+              className="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium"
+            >
               {item}
             </a>
           ))}
@@ -136,7 +140,11 @@ export default function Home() {
         {/* Bottom nav - mobile, sticky */}
         <nav className="lg:hidden sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex justify-around py-2 text-xs z-10">
           {["League", "Rankings", "Tools", "Streams", "More"].map((item) => (
-            <a key={item} href="#" className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400">
+            <a 
+              key={item} 
+              href={item === "League" ? "/league" : "#"} 
+              className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400"
+            >
               {item}
             </a>
           ))}
