@@ -66,6 +66,25 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!lineup.length) return;
+    const names = lineup.map((p) => p.name).join(",");
+    fetch(`/api/points?names=${encodeURIComponent(names)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.points) {
+          setLineup((prev) =>
+            prev.map((p) => ({
+              ...p,
+              proj: data.points[p.name]?.projected ?? p.proj,
+              current: data.points[p.name]?.current ?? p.current,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, [lineup.map((p) => p.name).join(",")]);
+
   const totalProj = lineup.reduce((sum, p) => sum + p.proj, 0);
   const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
 
@@ -85,11 +104,7 @@ export default function Home() {
         <h1 className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-8">FF Manager</h1>
         <nav className="space-y-1">
           {["My League", "Rankings", "Tools", "Streams", "More"].map((item) => (
-            <a 
-              key={item} 
-              href={item === "My League" ? "/league" : "#"} 
-              className="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium"
-            >
+            <a key={item} href={item === "My League" ? "/league" : "#"} className="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">
               {item}
             </a>
           ))}
@@ -102,10 +117,7 @@ export default function Home() {
             <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
             <h1 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 lg:hidden">FF Manager</h1>
           </div>
-          <button
-            onClick={toggleTheme}
-            className="rounded-full px-3 py-1 text-sm bg-slate-100 dark:bg-slate-800"
-          >
+          <button onClick={toggleTheme} className="rounded-full px-3 py-1 text-sm bg-slate-100 dark:bg-slate-800">
             {dark ? "☀️" : "🌙"}
           </button>
         </header>
@@ -123,7 +135,6 @@ export default function Home() {
                 <div className="text-[10px] font-medium">{totalProj.toFixed(1)} proj</div>
               </div>
             </div>
-
             <div className="space-y-0.5">
               {lineup.map((player) => (
                 <div key={player.pos + player.name} className="flex items-center justify-between text-[11px] py-0.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
@@ -145,13 +156,7 @@ export default function Home() {
             <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {quickActions.map((action) => (
-                <a
-                  key={action.title}
-                  href={action.href}
-                  target={action.href.startsWith("http") ? "_blank" : undefined}
-                  rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-emerald-500 dark:hover:border-emerald-400 transition"
-                >
+                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-emerald-500 dark:hover:border-emerald-400 transition">
                   <div className="font-medium text-sm">{action.title}</div>
                   <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{action.desc}</div>
                 </a>
@@ -162,11 +167,7 @@ export default function Home() {
 
         <nav className="lg:hidden sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex justify-around py-2 text-xs z-10">
           {["League", "Rankings", "Tools", "Streams", "More"].map((item) => (
-            <a 
-              key={item} 
-              href={item === "League" ? "/league" : "#"} 
-              className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400"
-            >
+            <a key={item} href={item === "League" ? "/league" : "#"} className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400">
               {item}
             </a>
           ))}
