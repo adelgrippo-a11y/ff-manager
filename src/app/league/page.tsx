@@ -29,6 +29,10 @@ export default function LeaguePage() {
   const [selected, setSelected] = useState("espn");
   const [lineup, setLineup] = useState<Player[]>([]);
   const [saved, setSaved] = useState(false);
+  const [leagueId, setLeagueId] = useState("");
+  const [espnS2, setEspnS2] = useState("");
+  const [swid, setSwid] = useState("");
+  const [connectStatus, setConnectStatus] = useState("");
 
   useEffect(() => {
     const stored = localStorage.getItem("ffLineup");
@@ -85,6 +89,60 @@ export default function LeaguePage() {
                 {p.name}
               </button>
             ))}
+          </div>
+
+          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white mt-4">Connect League (optional)</h3>
+          <div className="space-y-2 mb-4">
+            <input
+              type="text"
+              value={leagueId}
+              onChange={(e) => setLeagueId(e.target.value)}
+              placeholder="League ID"
+              className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm"
+            />
+            {selected === "espn" && (
+              <>
+                <input
+                  type="text"
+                  value={espnS2}
+                  onChange={(e) => setEspnS2(e.target.value)}
+                  placeholder="espn_s2 cookie (private leagues)"
+                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs"
+                />
+                <input
+                  type="text"
+                  value={swid}
+                  onChange={(e) => setSwid(e.target.value)}
+                  placeholder="SWID cookie (private leagues)"
+                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs"
+                />
+              </>
+            )}
+            <button
+              onClick={async () => {
+                if (!leagueId.trim()) return;
+                setConnectStatus("Connecting...");
+                try {
+                  const params = new URLSearchParams({ leagueId: leagueId.trim() });
+                  if (espnS2) params.set("espnS2", espnS2);
+                  if (swid) params.set("swid", swid);
+                  const res = await fetch(`/api/espn?${params}`);
+                  const data = await res.json();
+                  if (data.error) {
+                    setConnectStatus(data.message || data.error);
+                  } else {
+                    setConnectStatus("Connected. Roster load coming next.");
+                    localStorage.setItem("ffLeague", JSON.stringify({ platform: selected, id: leagueId.trim() }));
+                  }
+                } catch {
+                  setConnectStatus("Failed");
+                }
+              }}
+              className="rounded-lg bg-slate-700 dark:bg-slate-600 px-4 py-2 text-sm font-medium text-white"
+            >
+              Connect
+            </button>
+            {connectStatus && <p className="text-xs text-slate-600 dark:text-slate-300">{connectStatus}</p>}
           </div>
 
           <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Quick Add</h3>
