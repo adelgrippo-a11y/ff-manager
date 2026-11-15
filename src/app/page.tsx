@@ -117,9 +117,14 @@ export default function Home() {
             <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
             <h1 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 lg:hidden">FF Manager</h1>
           </div>
-          <button onClick={toggleTheme} className="rounded-full px-3 py-1 text-sm bg-slate-100 dark:bg-slate-800">
-            {dark ? "☀️" : "🌙"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={toggleTheme} className="rounded-full px-3 py-1 text-sm bg-slate-100 dark:bg-slate-800">
+              {dark ? "☀️" : "🌙"}
+            </button>
+            <a href="/api/auth/signin" className="rounded-lg bg-emerald-600 px-3 py-1 text-sm text-white">
+              Sign in
+            </a>
+          </div>
         </header>
 
         <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6 pb-20">
