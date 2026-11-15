@@ -14,6 +14,7 @@ export default function LeaguePage() {
   const [selected, setSelected] = useState("espn");
   const [leagueId, setLeagueId] = useState("");
   const [saved, setSaved] = useState(false);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const stored = localStorage.getItem("ffLeague");
@@ -26,13 +27,29 @@ export default function LeaguePage() {
     }
   }, []);
 
-  const handleSave = () => {
-    if (leagueId.trim()) {
-      localStorage.setItem(
-        "ffLeague",
-        JSON.stringify({ platform: selected, id: leagueId.trim() })
-      );
-      setSaved(true);
+  const handleSave = async () => {
+    if (!leagueId.trim()) return;
+    localStorage.setItem(
+      "ffLeague",
+      JSON.stringify({ platform: selected, id: leagueId.trim() })
+    );
+    setSaved(true);
+
+    if (selected === "espn") {
+      setStatus("Fetching...");
+      try {
+        const res = await fetch(`/api/espn?leagueId=${leagueId.trim()}`);
+        const data = await res.json();
+        if (data.error) {
+          setStatus(data.message || data.error);
+        } else {
+          setStatus("Data loaded (public league)");
+        }
+      } catch {
+        setStatus("Fetch failed");
+      }
+    } else {
+      setStatus("Saved. Live pull for this platform coming soon.");
     }
   };
 
@@ -55,6 +72,7 @@ export default function LeaguePage() {
                 onClick={() => {
                   setSelected(p.id);
                   setSaved(false);
+                  setStatus("");
                 }}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
                   selected === p.id
@@ -75,6 +93,7 @@ export default function LeaguePage() {
               onChange={(e) => {
                 setLeagueId(e.target.value);
                 setSaved(false);
+                setStatus("");
               }}
               placeholder={current.placeholder}
               className="flex-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm"
@@ -88,11 +107,14 @@ export default function LeaguePage() {
           </div>
           {saved && (
             <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">
-              Saved {current.name} league. Live data pull coming next.
+              Saved {current.name} league.
             </p>
           )}
+          {status && (
+            <p className="text-xs mt-2 text-slate-600 dark:text-slate-400">{status}</p>
+          )}
           <p className="text-xs text-slate-500 mt-3">
-            Find your league ID in the app URL or league settings.
+            Find your league ID in the app URL or league settings. Private ESPN leagues need cookies.
           </p>
         </div>
 
