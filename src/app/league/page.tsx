@@ -66,6 +66,7 @@ export default function LeaguePage() {
 
   const handleSave = () => {
     localStorage.setItem("ffLineup", JSON.stringify({ platform: selected, lineup }));
+    window.dispatchEvent(new Event("storage"));
     setSaved(true);
   };
 
