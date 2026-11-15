@@ -25,7 +25,6 @@ export default function Home() {
     }
   };
 
-  // Load saved lineup or fall back to mock
   const [lineup, setLineup] = useState([
     { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2 },
     { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6 },
@@ -39,23 +38,32 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("ffLineup");
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        if (data.lineup?.length) {
-          setLineup(
-            data.lineup.map((p: any) => ({
-              pos: p.pos,
-              name: p.name,
-              opp: p.team ? `vs ${p.team}` : "",
-              proj: p.projected || 0,
-              current: p.current || 0,
-            }))
-          );
-        }
-      } catch {}
-    }
+    const load = () => {
+      const stored = localStorage.getItem("ffLineup");
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          if (data.lineup?.length) {
+            setLineup(
+              data.lineup.map((p: any) => ({
+                pos: p.pos,
+                name: p.name,
+                opp: p.team ? `vs ${p.team}` : "",
+                proj: p.projected || 0,
+                current: p.current || 0,
+              }))
+            );
+          }
+        } catch {}
+      }
+    };
+    load();
+    window.addEventListener("focus", load);
+    window.addEventListener("storage", load);
+    return () => {
+      window.removeEventListener("focus", load);
+      window.removeEventListener("storage", load);
+    };
   }, []);
 
   const totalProj = lineup.reduce((sum, p) => sum + p.proj, 0);
