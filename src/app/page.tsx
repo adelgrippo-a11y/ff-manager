@@ -43,7 +43,7 @@ export default function Home() {
 
   const quickActions = [
     { title: "Power Rankings", desc: "See where you stand", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
-    { title: "Start / Sit", desc: "Optimize your lineup", href: "https://jointheblueprint.com/" },
+    { title: "Start / Sit", desc: "Optimize your lineup", href: "https://fantasyfootballstarts.com/" },
     { title: "ROS Rankings", desc: "Rest of season outlook", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
     { title: "NFL Injuries", desc: "Latest updates", href: "https://www.nfl.com/injuries/" },
     { title: "Stream Live", desc: "Games & RedZone", href: "https://www.youtube.com/live/LxJIVjEZJM8" },
