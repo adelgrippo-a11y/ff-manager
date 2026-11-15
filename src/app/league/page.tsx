@@ -10,20 +10,7 @@ const platforms = [
   { id: "nfl", name: "NFL.com" },
 ];
 
-const popular = [
-  { name: "Josh Allen", pos: "QB", team: "BUF" },
-  { name: "Christian McCaffrey", pos: "RB", team: "SF" },
-  { name: "Tyreek Hill", pos: "WR", team: "MIA" },
-  { name: "Travis Kelce", pos: "TE", team: "KC" },
-  { name: "Justin Tucker", pos: "K", team: "BAL" },
-  { name: "Baltimore", pos: "DEF", team: "BAL" },
-  { name: "Saquon Barkley", pos: "RB", team: "PHI" },
-  { name: "CeeDee Lamb", pos: "WR", team: "DAL" },
-  { name: "Amon-Ra St. Brown", pos: "WR", team: "DET" },
-  { name: "Deebo Samuel", pos: "WR", team: "SF" },
-];
-
-type Player = { name: string; pos: string; team?: string; current?: number; projected?: number };
+type Player = { id?: string; name: string; pos: string; team?: string; current?: number; projected?: number };
 
 export default function LeaguePage() {
   const [selected, setSelected] = useState("espn");
@@ -33,17 +20,37 @@ export default function LeaguePage() {
   const [espnS2, setEspnS2] = useState("");
   const [swid, setSwid] = useState("");
   const [connectStatus, setConnectStatus] = useState("");
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState<Player[]>([]);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("ffLineup");
-    if (stored) {
+    const storedLineup = localStorage.getItem("ffLineup");
+    if (storedLineup) {
       try {
-        const data = JSON.parse(stored);
+        const data = JSON.parse(storedLineup);
         setSelected(data.platform || "espn");
         setLineup(data.lineup || []);
       } catch {}
     }
+    const storedCreds = localStorage.getItem("ffCreds");
+    if (storedCreds) {
+      try {
+        const data = JSON.parse(storedCreds);
+        setLeagueId(data.leagueId || "");
+        setEspnS2(data.espnS2 || "");
+        setSwid(data.swid || "");
+        setSelected(data.platform || "espn");
+      } catch {}
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "ffCreds",
+      JSON.stringify({ platform: selected, leagueId, espnS2, swid })
+    );
+  }, [selected, leagueId, espnS2, swid]);
 
   const addPlayer = (p: Player) => {
     if (lineup.length >= 9) return;
@@ -62,12 +69,25 @@ export default function LeaguePage() {
     setSaved(true);
   };
 
+  const doSearch = async () => {
+    if (!search.trim()) return;
+    setSearching(true);
+    try {
+      const res = await fetch(`/api/players?q=${encodeURIComponent(search)}`);
+      const data = await res.json();
+      setResults(data.players || []);
+    } catch {
+      setResults([]);
+    }
+    setSearching(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">My Lineup</h1>
         <p className="text-slate-600 dark:text-slate-300 mb-6">
-          Pick your platform and add players. Points will load from public data.
+          Connect your league or search all NFL players. Your info is saved in this browser.
         </p>
 
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 mb-6">
@@ -76,10 +96,7 @@ export default function LeaguePage() {
             {platforms.map((p) => (
               <button
                 key={p.id}
-                onClick={() => {
-                  setSelected(p.id);
-                  setSaved(false);
-                }}
+                onClick={() => setSelected(p.id)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
                   selected === p.id
                     ? "bg-emerald-600 text-white border-emerald-600"
@@ -91,7 +108,7 @@ export default function LeaguePage() {
             ))}
           </div>
 
-          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white mt-4">Connect League (optional)</h3>
+          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">League Credentials (saved automatically)</h3>
           <div className="space-y-2 mb-4">
             <input
               type="text"
@@ -106,56 +123,52 @@ export default function LeaguePage() {
                   type="text"
                   value={espnS2}
                   onChange={(e) => setEspnS2(e.target.value)}
-                  placeholder="espn_s2 cookie (private leagues)"
+                  placeholder="espn_s2 cookie"
                   className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs"
                 />
                 <input
                   type="text"
                   value={swid}
                   onChange={(e) => setSwid(e.target.value)}
-                  placeholder="SWID cookie (private leagues)"
+                  placeholder="SWID cookie"
                   className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs"
                 />
               </>
             )}
-            <button
-              onClick={async () => {
-                if (!leagueId.trim()) return;
-                setConnectStatus("Connecting...");
-                try {
-                  const params = new URLSearchParams({ leagueId: leagueId.trim() });
-                  if (espnS2) params.set("espnS2", espnS2);
-                  if (swid) params.set("swid", swid);
-                  const res = await fetch(`/api/espn?${params}`);
-                  const data = await res.json();
-                  if (data.error) {
-                    setConnectStatus(data.message || data.error);
-                  } else {
-                    setConnectStatus("Connected. Roster load coming next.");
-                    localStorage.setItem("ffLeague", JSON.stringify({ platform: selected, id: leagueId.trim() }));
-                  }
-                } catch {
-                  setConnectStatus("Failed");
-                }
-              }}
-              className="rounded-lg bg-slate-700 dark:bg-slate-600 px-4 py-2 text-sm font-medium text-white"
-            >
-              Connect
-            </button>
-            {connectStatus && <p className="text-xs text-slate-600 dark:text-slate-300">{connectStatus}</p>}
+            <p className="text-xs text-emerald-600 dark:text-emerald-400">Credentials save automatically in this browser.</p>
           </div>
 
-          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Quick Add</h3>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {popular.map((p) => (
+          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Search All Players</h3>
+          <div className="flex gap-2 mb-3">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && doSearch()}
+              placeholder="Search name or position (e.g. Mahomes, RB)"
+              className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm"
+            />
+            <button
+              onClick={doSearch}
+              disabled={searching}
+              className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white"
+            >
+              {searching ? "..." : "Search"}
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2 mb-4 max-h-40 overflow-y-auto">
+            {results.map((p) => (
               <button
-                key={p.name}
+                key={p.id || p.name}
                 onClick={() => addPlayer(p)}
                 className="px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white hover:border-emerald-500"
               >
-                {p.pos} {p.name}
+                {p.pos} {p.name} {p.team && `(${p.team})`}
               </button>
             ))}
+            {results.length === 0 && search && !searching && (
+              <p className="text-xs text-slate-500">No results. Try another search.</p>
+            )}
           </div>
 
           <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Your Lineup ({lineup.length}/9)</h3>
@@ -165,11 +178,12 @@ export default function LeaguePage() {
                 <div>
                   <span className="font-mono text-xs text-slate-500 dark:text-slate-400 mr-2">{p.pos}</span>
                   {p.name}
+                  {p.team && <span className="text-xs text-slate-400 ml-1">({p.team})</span>}
                 </div>
                 <button onClick={() => removePlayer(p.name)} className="text-red-500 text-xs">Remove</button>
               </div>
             ))}
-            {lineup.length === 0 && <p className="text-xs text-slate-500 dark:text-slate-400">Add players above</p>}
+            {lineup.length === 0 && <p className="text-xs text-slate-500 dark:text-slate-400">Search and add players above</p>}
           </div>
 
           <button
@@ -178,7 +192,7 @@ export default function LeaguePage() {
           >
             Save Lineup
           </button>
-          {saved && <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">Saved. Points pull coming next.</p>}
+          {saved && <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">Lineup saved.</p>}
         </div>
 
         <a href="/" className="inline-block mt-4 text-emerald-600 dark:text-emerald-400 text-sm">
