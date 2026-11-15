@@ -81,32 +81,32 @@ export default function Home() {
         </header>
 
         {/* Main content */}
-        <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6">
+        <main className="flex-1 px-4 py-6 max-w-4xl mx-auto w-full space-y-6 pb-20">
           {/* Hero - Current Lineup */}
-          <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
+          <section className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-3 shadow-sm">
+            <div className="flex items-start justify-between mb-2">
               <div>
-                <h2 className="text-xl font-bold">My Lineup</h2>
-                <p className="text-slate-500 dark:text-slate-400 text-xs">Week 11 · vs Rival Team</p>
+                <h2 className="text-lg font-bold">My Lineup</h2>
+                <p className="text-slate-500 dark:text-slate-400 text-[11px]">Week 11 · vs Rival Team</p>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{totalCurrent.toFixed(1)}</div>
-                <div className="text-xs text-slate-500">Current</div>
-                <div className="text-xs font-medium">{totalProj.toFixed(1)} proj</div>
+                <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{totalCurrent.toFixed(1)}</div>
+                <div className="text-[10px] text-slate-500">Current</div>
+                <div className="text-[10px] font-medium">{totalProj.toFixed(1)} proj</div>
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               {lineup.map((player) => (
-                <div key={player.pos + player.name} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 dark:border-slate-700 last:border-0">
-                  <div className="flex items-center gap-2">
-                    <span className="w-10 font-mono text-[10px] font-semibold text-slate-500">{player.pos}</span>
+                <div key={player.pos + player.name} className="flex items-center justify-between text-[11px] py-0.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-8 font-mono text-[9px] font-semibold text-slate-500">{player.pos}</span>
                     <span className="font-medium">{player.name}</span>
-                    <span className="text-[10px] text-slate-400">{player.opp}</span>
+                    <span className="text-[9px] text-slate-400">{player.opp}</span>
                   </div>
                   <div className="text-right">
                     <span className="font-semibold">{player.current}</span>
-                    <span className="text-[10px] text-slate-400 ml-1">/{player.proj}</span>
+                    <span className="text-[9px] text-slate-400 ml-1">/{player.proj}</span>
                   </div>
                 </div>
               ))}
@@ -133,8 +133,8 @@ export default function Home() {
           </section>
         </main>
 
-        {/* Bottom nav - mobile */}
-        <nav className="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-around py-2 text-xs">
+        {/* Bottom nav - mobile, sticky */}
+        <nav className="lg:hidden sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex justify-around py-2 text-xs z-10">
           {["League", "Rankings", "Tools", "Streams", "More"].map((item) => (
             <a key={item} href="#" className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400">
               {item}
