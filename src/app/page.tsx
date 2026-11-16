@@ -35,15 +35,15 @@ export default function Home() {
   };
 
   const [lineup, setLineup] = useState([
-    { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2, last: 24.1 },
-    { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6, last: 19.3 },
-    { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3, last: 11.2 },
-    { pos: "WR", name: "T. Hill", opp: "vs BUF", proj: 16.9, current: 9.4, last: 18.7 },
-    { pos: "WR", name: "A. St. Brown", opp: "vs CHI", proj: 15.2, current: 11.1, last: 14.5 },
-    { pos: "TE", name: "T. Kelce", opp: "vs LV", proj: 12.7, current: 8.8, last: 10.1 },
-    { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2, last: 9.8 },
-    { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0, last: 7.0 },
-    { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0, last: 8.0 },
+    { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2, last: 24.1, oppPts: 19.5 },
+    { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6, last: 19.3, oppPts: 12.8 },
+    { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3, last: 11.2, oppPts: 14.1 },
+    { pos: "WR", name: "T. Hill", opp: "vs BUF", proj: 16.9, current: 9.4, last: 18.7, oppPts: 15.2 },
+    { pos: "WR", name: "A. St. Brown", opp: "vs CHI", proj: 15.2, current: 11.1, last: 14.5, oppPts: 13.6 },
+    { pos: "TE", name: "T. Kelce", opp: "vs LV", proj: 12.7, current: 8.8, last: 10.1, oppPts: 9.4 },
+    { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2, last: 9.8, oppPts: 11.0 },
+    { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0, last: 7.0, oppPts: 6.5 },
+    { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0, last: 8.0, oppPts: 5.5 },
   ]);
 
   useEffect(() => {
@@ -61,6 +61,7 @@ export default function Home() {
                 proj: p.projected || 0,
                 current: p.current || 0,
                 last: p.last || "—",
+                oppPts: p.oppPts || "—",
               }))
             );
           }
@@ -158,8 +159,12 @@ export default function Home() {
                       <div className="text-[11px] font-medium">{player.last || "—"}</div>
                     </div>
                     <div className="text-right">
+                      <div className="text-[10px] text-muted">Opp</div>
+                      <div className="text-[11px] font-medium">{player.oppPts || "—"}</div>
+                    </div>
+                    <div className="text-right">
                       <div className="text-[11px] font-bold text-accent">{player.current}</div>
-                      <div className="text-[7px] text-muted">PTS</div>
+                      <div className="text-[7px] text-muted">{player.proj} proj</div>
                     </div>
                     <div className="w-3 h-3 rounded-full bg-accent text-white text-[7px] flex items-center justify-center">✓</div>
                   </div>
