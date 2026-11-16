@@ -81,7 +81,7 @@ export default function Home() {
     fetch(`/api/points?names=${encodeURIComponent(names)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.points) {
+        if (data.points && Object.keys(data.points).length) {
           setLineup((prev) =>
             prev.map((p) => ({
               ...p,
