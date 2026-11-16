@@ -153,16 +153,28 @@ export default function LeaguePage() {
               onClick={async () => {
                 if (!leagueId.trim()) return;
                 setTeamsStatus("Loading teams...");
-                const params = new URLSearchParams({ leagueId: leagueId.trim(), platform: selected });
-                if (espnS2) params.set("espnS2", espnS2);
-                if (swid) params.set("swid", swid);
                 try {
-                  const res = await fetch(`/api/teams?${params}`);
+                  const year = new Date().getFullYear();
+                  const url = `https://fantasy.espn.com/apis/v3/games/ffl/seasons/${year}/segments/0/leagues/${leagueId.trim()}?view=mRoster`;
+                  const headers: HeadersInit = { Accept: "application/json" };
+                  if (espnS2 && swid) {
+                    headers["Cookie"] = `espn_s2=${espnS2}; SWID=${swid}`;
+                  }
+                  const res = await fetch(url, { headers, credentials: "include" });
+                  if (!res.ok) {
+                    setTeamsStatus(`ESPN ${res.status}`);
+                    return;
+                  }
                   const data = await res.json();
-                  setTeams(data.teams || []);
-                  setTeamsStatus(data.error || `${data.teams?.length || 0} teams found`);
-                } catch {
-                  setTeamsStatus("fetch failed");
+                  const teams = (data.teams || []).map((t: any) => ({
+                    id: t.id,
+                    name: t.location ? `${t.location} ${t.nickname}` : `Team ${t.id}`,
+                    players: (t.roster?.entries || []).map((e: any) => e.playerPoolEntry?.player?.fullName).filter(Boolean),
+                  }));
+                  setTeams(teams);
+                  setTeamsStatus(`${teams.length} teams found`);
+                } catch (e: any) {
+                  setTeamsStatus(e?.message || "fetch failed");
                 }
               }}
               className="btn-accent"
