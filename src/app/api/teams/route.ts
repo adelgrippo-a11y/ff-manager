@@ -26,12 +26,21 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ teams });
     }
 
-    const year = "2026";
+    // ESPN fallback (public or with cookies)
+    const year = new Date().getFullYear().toString();
     const url = `https://fantasy.espn.com/apis/v3/games/ffl/seasons/${year}/segments/0/leagues/${leagueId}?view=mRoster`;
-    const headers: HeadersInit = { "User-Agent": "Mozilla/5.0" };
-    if (espnS2 && swid) headers["Cookie"] = `espn_s2=${espnS2}; SWID=${swid}`;
-    const res = await fetch(url, { headers });
-    if (!res.ok) return NextResponse.json({ teams: [], error: "private or invalid" });
+    const headers: HeadersInit = {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Accept": "application/json",
+    };
+    if (espnS2 && swid) {
+      headers["Cookie"] = `espn_s2=${espnS2}; SWID=${swid}`;
+    }
+    const res = await fetch(url, { headers, cache: "no-store" });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      return NextResponse.json({ teams: [], error: `ESPN ${res.status}: ${text.slice(0, 100)}` });
+    }
     const data = await res.json();
     const teams = (data.teams || []).map((t: any) => ({
       id: t.id,
@@ -39,7 +48,7 @@ export async function GET(req: NextRequest) {
       players: (t.roster?.entries || []).map((e: any) => e.playerPoolEntry?.player?.fullName).filter(Boolean),
     }));
     return NextResponse.json({ teams });
-  } catch {
-    return NextResponse.json({ teams: [], error: "fetch failed" });
+  } catch (e: any) {
+    return NextResponse.json({ teams: [], error: e?.message || "fetch failed" });
   }
 }
