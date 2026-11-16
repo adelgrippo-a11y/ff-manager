@@ -4,6 +4,8 @@ import { useState } from "react";
 
 const creators = [
   { name: "Chat Sports RedZone", url: "https://www.youtube.com/live/LxJIVjEZJM8" },
+  { name: "Sal Vetri", url: "https://www.youtube.com/@SalVetri" },
+  { name: "The Flock League", url: "https://www.youtube.com/@FlockLeague" },
   { name: "Fantasy Footballers", url: "https://www.youtube.com/@TheFantasyFootballers" },
   { name: "Matthew Berry", url: "https://www.youtube.com/@MatthewBerryFantasy" },
   { name: "FantasyPros", url: "https://www.youtube.com/@FantasyPros" },
