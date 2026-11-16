@@ -107,12 +107,12 @@ export default function Home() {
   const myLeagueHref = leagueLinks[platform] || leagueLinks.espn;
 
   const quickActions = [
-    { title: "My League", href: myLeagueHref },
-    { title: "Rankings", href: "https://www.fantasypros.com/nfl/myplaybook/" },
-    { title: "Start / Sit", href: "https://fantasyfootballstarts.com/" },
-    { title: "Injuries", href: "https://www.nfl.com/injuries/" },
-    { title: "Streams", href: "/streams" },
-    { title: "More", href: "#" },
+    { title: "My League", icon: "\ud83c\udfc8", href: myLeagueHref },
+    { title: "Rankings", icon: "\ud83d\udcca", href: "https://www.fantasypros.com/nfl/myplaybook/" },
+    { title: "Start / Sit", icon: "\u26a1", href: "https://fantasyfootballstarts.com/" },
+    { title: "Injuries", icon: "\ud83c\udfe5", href: "https://www.nfl.com/injuries/" },
+    { title: "Streams", icon: "\ud83d\udcfa", href: "/streams" },
+    { title: "More", icon: "\u22ef", href: "#" },
   ];
 
   return (
@@ -158,9 +158,12 @@ export default function Home() {
                       <div className="text-xs text-muted">{player.opp}</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="font-bold text-accent">{player.current}</div>
-                    <div className="text-[10px] text-muted">PTS</div>
+                  <div className="flex items-center gap-2">
+                    <div className="text-right">
+                      <div className="font-bold text-accent">{player.current}</div>
+                      <div className="text-[10px] text-muted">PTS</div>
+                    </div>
+                    <div className="w-5 h-5 rounded-full bg-accent text-white text-xs flex items-center justify-center">✓</div>
                   </div>
                 </div>
               ))}
@@ -201,6 +204,7 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-3">
               {quickActions.map((action) => (
                 <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="card p-4 text-center text-sm font-medium hover:border-accent transition">
+                  <div className="text-lg mb-1">{action.icon}</div>
                   {action.title}
                 </a>
               ))}
