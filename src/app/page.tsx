@@ -128,7 +128,9 @@ export default function Home() {
       <div className="flex-1 flex flex-col">
         <header className="border-b border-border bg-card px-4 py-3 flex items-center justify-between lg:px-6">
           <div className="flex items-center gap-3">
-            <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+            <button className="lg:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
             <h1 className="text-lg font-bold text-accent lg:hidden">FF Manager</h1>
           </div>
           <div className="flex items-center gap-2">
@@ -140,38 +142,38 @@ export default function Home() {
         </header>
 
         <main className="flex-1 px-4 py-6 max-w-lg mx-auto w-full space-y-4 pb-20">
-          <section className="card p-3">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-base font-bold">My Lineup</h2>
-              <span className="text-[10px] text-muted border border-border rounded-full px-1.5 py-0.5">Week 11</span>
+          <section className="card p-2.5">
+            <div className="flex items-center justify-between mb-1.5">
+              <h2 className="text-sm font-bold">My Lineup</h2>
+              <span className="text-[9px] text-muted border border-border rounded-full px-1 py-0.5">Week 11</span>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {lineup.map((player) => (
                 <div key={player.pos + player.name} className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-accent flex items-center justify-center text-[9px] font-semibold">{player.pos}</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-accent flex items-center justify-center text-[8px] font-semibold">{player.pos}</span>
                     <div>
-                      <div className="text-xs font-medium">{player.name}</div>
-                      <div className="text-[9px] text-muted">{player.opp}</div>
+                      <div className="text-[11px] font-medium">{player.name}</div>
+                      <div className="text-[8px] text-muted">{player.opp}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-0.5">
                     <div className="text-right">
-                      <div className="text-xs font-bold text-accent">{player.current}</div>
-                      <div className="text-[8px] text-muted">PTS</div>
+                      <div className="text-[11px] font-bold text-accent">{player.current}</div>
+                      <div className="text-[7px] text-muted">PTS</div>
                     </div>
-                    <div className="w-3.5 h-3.5 rounded-full bg-accent text-white text-[8px] flex items-center justify-center">✓</div>
+                    <div className="w-3 h-3 rounded-full bg-accent text-white text-[7px] flex items-center justify-center">✓</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-between mt-2 pt-1.5 border-t border-border text-xs">
+            <div className="flex justify-between mt-1.5 pt-1 border-t border-border text-[10px]">
               <div>
-                <div className="text-muted text-[9px]">Current</div>
+                <div className="text-muted text-[8px]">Current</div>
                 <div className="font-bold text-accent">{totalCurrent.toFixed(1)}</div>
               </div>
               <div className="text-right">
-                <div className="text-muted text-[9px]">Projected</div>
+                <div className="text-muted text-[8px]">Projected</div>
                 <div className="font-bold">{totalProj.toFixed(1)}</div>
               </div>
             </div>
@@ -222,9 +224,9 @@ export default function Home() {
             <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
             Rankings
           </a>
-          <a href="#" className="flex flex-col items-center py-1 text-muted">
-            <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
-            More
+          <a href="/streams" className="flex flex-col items-center py-1 text-muted">
+            <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Streams
           </a>
         </nav>
       </div>
