@@ -5,12 +5,21 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [dark, setDark] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [platform, setPlatform] = useState("espn");
 
   useEffect(() => {
     const isDark = localStorage.getItem("theme") === "dark" ||
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
     if (isDark) document.documentElement.classList.add("dark");
+
+    const creds = localStorage.getItem("ffCreds");
+    if (creds) {
+      try {
+        const data = JSON.parse(creds);
+        if (data.platform) setPlatform(data.platform);
+      } catch {}
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -88,7 +97,17 @@ export default function Home() {
   const totalProj = lineup.reduce((sum, p) => sum + p.proj, 0);
   const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
 
+  const leagueLinks: Record<string, string> = {
+    espn: "https://fantasy.espn.com/football/",
+    yahoo: "https://football.fantasysports.yahoo.com/",
+    sleeper: "https://sleeper.com/leagues",
+    cbs: "https://www.cbssports.com/fantasy/football/",
+    nfl: "https://fantasy.nfl.com/",
+  };
+  const myLeagueHref = leagueLinks[platform] || leagueLinks.espn;
+
   const quickActions = [
+    { title: "My League", desc: "Open your league app", href: myLeagueHref },
     { title: "Power Rankings", desc: "See where you stand", href: "https://www.fantasypros.com/nfl/myplaybook/" },
     { title: "Start / Sit", desc: "Optimize your lineup", href: "https://fantasyfootballstarts.com/" },
     { title: "ROS Rankings", desc: "Rest of season outlook", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
