@@ -35,15 +35,15 @@ export default function Home() {
   };
 
   const [lineup, setLineup] = useState([
-    { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2 },
-    { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6 },
-    { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3 },
-    { pos: "WR", name: "T. Hill", opp: "vs BUF", proj: 16.9, current: 9.4 },
-    { pos: "WR", name: "A. St. Brown", opp: "vs CHI", proj: 15.2, current: 11.1 },
-    { pos: "TE", name: "T. Kelce", opp: "vs LV", proj: 12.7, current: 8.8 },
-    { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2 },
-    { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0 },
-    { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0 },
+    { pos: "QB", name: "J. Allen", opp: "vs MIA", proj: 22.4, current: 18.2, last: 24.1 },
+    { pos: "RB", name: "C. McCaffrey", opp: "vs SEA", proj: 18.1, current: 14.6, last: 19.3 },
+    { pos: "RB", name: "B. Robinson", opp: "vs TB", proj: 15.8, current: 12.3, last: 11.2 },
+    { pos: "WR", name: "T. Hill", opp: "vs BUF", proj: 16.9, current: 9.4, last: 18.7 },
+    { pos: "WR", name: "A. St. Brown", opp: "vs CHI", proj: 15.2, current: 11.1, last: 14.5 },
+    { pos: "TE", name: "T. Kelce", opp: "vs LV", proj: 12.7, current: 8.8, last: 10.1 },
+    { pos: "FLEX", name: "D. Samuel", opp: "vs GB", proj: 13.4, current: 6.2, last: 9.8 },
+    { pos: "K", name: "J. Tucker", opp: "vs CIN", proj: 8.5, current: 5.0, last: 7.0 },
+    { pos: "DEF", name: "BAL", opp: "vs CIN", proj: 7.2, current: 4.0, last: 8.0 },
   ]);
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function Home() {
                 opp: p.team ? `vs ${p.team}` : "",
                 proj: p.projected || 0,
                 current: p.current || 0,
+                last: p.last || "—",
               }))
             );
           }
@@ -151,7 +152,11 @@ export default function Home() {
                       <div className="text-[8px] text-muted">{player.opp}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-0.5">
+                  <div className="flex items-center gap-2">
+                    <div className="text-right">
+                      <div className="text-[10px] text-muted">Last</div>
+                      <div className="text-[11px] font-medium">{player.last || "—"}</div>
+                    </div>
                     <div className="text-right">
                       <div className="text-[11px] font-bold text-accent">{player.current}</div>
                       <div className="text-[7px] text-muted">PTS</div>
