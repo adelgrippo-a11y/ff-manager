@@ -147,7 +147,7 @@ export default function Home() {
               {lineup.map((player) => (
                 <div key={player.pos + player.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
-                    <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 text-accent flex items-center justify-center text-[8px] font-semibold">{player.pos}</span>
+                    <span className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center text-[9px] font-bold shadow-sm">{player.pos}</span>
                     <div>
                       <div className="text-[11px] font-medium">{player.name}</div>
                       <div className="text-[8px] text-muted">{player.opp}</div>
@@ -164,7 +164,7 @@ export default function Home() {
                     </div>
                     <div className="text-right">
                       <div className="text-[11px] font-bold text-accent">{player.current}</div>
-                      <div className="text-[7px] text-muted">{player.proj} proj</div>
+                      <div className="text-[9px] font-medium text-muted">{player.proj} proj</div>
                     </div>
                     <div className="w-3 h-3 rounded-full bg-accent text-white text-[7px] flex items-center justify-center">✓</div>
                   </div>
@@ -211,7 +211,7 @@ export default function Home() {
           </section>
         </main>
 
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-card flex justify-around py-2 text-xs z-20">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-card flex justify-around py-2 text-xs z-20 shadow-[0_-2px_10px_rgba(0,0,0,0.08)]">
           <a href="/league" className="flex flex-col items-center py-1 text-muted">
             <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             League
