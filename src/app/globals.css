@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #F7F7F8;
+  --foreground: #0B1D3A;
   --card: #ffffff;
-  --accent: #059669;
-  --accent-hover: #047857;
-  --muted: #64748b;
-  --border: #e2e8f0;
+  --accent: #1E56FF;
+  --accent-hover: #1646d9;
+  --gold: #F2B01E;
+  --muted: #5a6578;
+  --border: #e2e6ed;
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --card: #1e293b;
-  --accent: #10b981;
-  --accent-hover: #059669;
-  --muted: #94a3b8;
-  --border: #334155;
+  --background: #1A2438;
+  --foreground: #F7F7F8;
+  --card: #0B1D3A;
+  --accent: #1E56FF;
+  --accent-hover: #4d7aff;
+  --gold: #F2B01E;
+  --muted: #9aa3b5;
+  --border: #2a3a54;
 }
 
 @theme inline {
@@ -25,6 +27,7 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-accent: var(--accent);
+  --color-gold: var(--gold);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
