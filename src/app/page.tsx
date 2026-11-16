@@ -93,7 +93,7 @@ export default function Home() {
     { title: "Start / Sit", desc: "Optimize your lineup", href: "https://fantasyfootballstarts.com/" },
     { title: "ROS Rankings", desc: "Rest of season outlook", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
     { title: "NFL Injuries", desc: "Latest updates", href: "https://www.nfl.com/injuries/" },
-    { title: "Stream Live", desc: "Games & RedZone", href: "https://www.youtube.com/live/LxJIVjEZJM8" },
+    { title: "Stream Live", desc: "RedZone (YouTube app)", href: "https://www.youtube.com/live/LxJIVjEZJM8" },
     { title: "Highlights", desc: "Top plays", href: "https://www.nfl.com/videos/" },
     { title: "X Feed", desc: "Live NFL chatter", href: "https://x.com/NFL" },
   ];
