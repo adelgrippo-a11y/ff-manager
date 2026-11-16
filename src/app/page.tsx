@@ -106,12 +106,6 @@ export default function Home() {
   };
   const myLeagueHref = leagueLinks[platform] || leagueLinks.espn;
 
-  const quickActions = [
-    { title: "My League", icon: "\ud83c\udfc8", href: myLeagueHref },
-    { title: "Start / Sit", icon: "\u26a1", href: "https://fantasyfootballstarts.com/" },
-    { title: "Streams", icon: "\ud83d\udcfa", href: "/streams" },
-  ];
-
   return (
     <div className="flex min-h-screen bg-background">
       <aside className="hidden lg:flex lg:flex-col w-64 border-r border-border bg-card p-6">
@@ -179,34 +173,30 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="card p-4">
-            <div className="flex items-center justify-between mb-3">
+          <section className="card p-3">
+            <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-semibold">vs Opponent</h3>
               <span className="text-xs text-accent">Live</span>
             </div>
-            <div className="flex items-end justify-around h-28">
-              <div className="text-center">
-                <div className="text-sm font-bold text-accent mb-1">{totalCurrent.toFixed(1)}</div>
-                <div className="bg-accent rounded-t" style={{ height: `${Math.max(20, Math.min(100, (totalCurrent / Math.max(totalProj, 1)) * 90))}px`, width: "56px" }} />
-                <div className="text-xs text-muted mt-1">You</div>
+            <div className="space-y-2">
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span>You</span>
+                  <span className="font-medium text-accent">{totalCurrent.toFixed(1)}</span>
+                </div>
+                <div className="h-3 bg-border rounded-full overflow-hidden">
+                  <div className="h-full bg-accent rounded-full" style={{ width: `${Math.min(100, (totalCurrent / Math.max(totalProj, 1)) * 100)}%` }} />
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-sm font-medium mb-1">0.0</div>
-                <div className="bg-slate-300 dark:bg-slate-600 rounded-t" style={{ height: "24px", width: "56px" }} />
-                <div className="text-xs text-muted mt-1">Opponent</div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span>Opponent</span>
+                  <span className="font-medium">0.0</span>
+                </div>
+                <div className="h-3 bg-border rounded-full overflow-hidden">
+                  <div className="h-full bg-slate-400 rounded-full" style={{ width: "0%" }} />
+                </div>
               </div>
-            </div>
-          </section>
-
-          <section>
-            <h3 className="font-semibold mb-3">Quick Actions</h3>
-            <div className="grid grid-cols-3 gap-3">
-              {quickActions.map((action) => (
-                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="card p-4 text-center hover:border-accent transition">
-                  <div className="text-xl mb-1">{action.icon}</div>
-                  <div className="text-xs font-medium">{action.title}</div>
-                </a>
-              ))}
             </div>
           </section>
         </main>
@@ -216,17 +206,21 @@ export default function Home() {
             <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
             Home
           </a>
-          <a href="/league" className="flex flex-col items-center py-1 text-muted">
+          <a href={myLeagueHref} target="_blank" className="flex flex-col items-center py-1 text-muted">
             <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             League
           </a>
-          <a href="/rankings" className="flex flex-col items-center py-1 text-muted">
-            <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            Rankings
+          <a href="https://fantasyfootballstarts.com/" target="_blank" className="flex flex-col items-center py-1 text-muted">
+            <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Start/Sit
           </a>
           <a href="/streams" className="flex flex-col items-center py-1 text-muted">
             <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             Streams
+          </a>
+          <a href="/rankings" className="flex flex-col items-center py-1 text-muted">
+            <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Rankings
           </a>
         </nav>
       </div>
