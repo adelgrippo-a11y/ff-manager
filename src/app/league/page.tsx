@@ -21,9 +21,9 @@ export default function LeaguePage() {
   const [swid, setSwid] = useState("");
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Player[]>([]);
-  const [searching, setSearching] = useState(false);
   const [teams, setTeams] = useState<any[]>([]);
   const [teamsStatus, setTeamsStatus] = useState("");
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     const storedLineup = localStorage.getItem("ffLineup");
@@ -82,83 +82,126 @@ export default function LeaguePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">My Lineup</h1>
-        <p className="text-slate-600 dark:text-slate-300 mb-6">Connect your league or search all NFL players. Your info is saved in this browser.</p>
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card px-4 py-3">
+        <a href="/" className="text-accent text-sm">← Back</a>
+        <h1 className="text-xl font-bold mt-1">My Lineup</h1>
+      </header>
+      <main className="px-4 py-6 max-w-lg mx-auto space-y-4">
+        <p className="text-sm text-muted">Connect your league or search players. Saved in this browser.</p>
 
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 mb-6">
-          <h2 className="font-semibold mb-3 text-slate-900 dark:text-white">Platform</h2>
+        <div className="card p-4">
+          <h2 className="font-semibold mb-3">Platform</h2>
           <div className="flex flex-wrap gap-2 mb-4">
             {platforms.map((p) => (
-              <button key={p.id} onClick={() => setSelected(p.id)} className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${selected === p.id ? "bg-emerald-600 text-white border-emerald-600" : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-300 dark:border-slate-600"}`}>
+              <button
+                key={p.id}
+                onClick={() => setSelected(p.id)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
+                  selected === p.id
+                    ? "bg-accent text-white border-accent"
+                    : "bg-border text-foreground border-border"
+                }`}
+              >
                 {p.name}
               </button>
             ))}
           </div>
 
-          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">League Credentials (saved automatically)</h3>
+          <h3 className="font-medium text-sm mb-2">League Credentials</h3>
           <div className="space-y-2 mb-4">
-            <input type="text" value={leagueId} onChange={(e) => setLeagueId(e.target.value)} placeholder="League ID" className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm" />
+            <input
+              type="text"
+              value={leagueId}
+              onChange={(e) => setLeagueId(e.target.value)}
+              placeholder="League ID"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            />
             {selected === "espn" && (
               <>
-                <input type="text" value={espnS2} onChange={(e) => setEspnS2(e.target.value)} placeholder="espn_s2 cookie" className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs" />
-                <input type="text" value={swid} onChange={(e) => setSwid(e.target.value)} placeholder="SWID cookie" className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-xs" />
+                <input
+                  type="text"
+                  value={espnS2}
+                  onChange={(e) => setEspnS2(e.target.value)}
+                  placeholder="espn_s2 cookie"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs"
+                />
+                <input
+                  type="text"
+                  value={swid}
+                  onChange={(e) => setSwid(e.target.value)}
+                  placeholder="SWID cookie"
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs"
+                />
               </>
             )}
-            <p className="text-xs text-emerald-600 dark:text-emerald-400">Credentials save automatically in this browser.</p>
-            <button onClick={async () => {
-              if (!leagueId.trim()) return;
-              setTeamsStatus("Loading teams...");
-              const params = new URLSearchParams({ leagueId: leagueId.trim(), platform: selected });
-              if (espnS2) params.set("espnS2", espnS2);
-              if (swid) params.set("swid", swid);
-              const res = await fetch(`/api/teams?${params}`);
-              const data = await res.json();
-              setTeams(data.teams || []);
-              setTeamsStatus(data.error || `${data.teams?.length || 0} teams found`);
-            }} className="rounded-lg bg-slate-700 px-4 py-2 text-sm text-white">Load Teams</button>
-            {teamsStatus && <p className="text-xs text-slate-500">{teamsStatus}</p>}
-            {teams.length > 0 && (
-              <div className="mt-2 space-y-1 max-h-32 overflow-y-auto">
-                {teams.map((t) => (
-                  <div key={t.id} className="text-xs text-slate-700 dark:text-slate-300">{t.name} ({t.players?.length || 0} players)</div>
-                ))}
-              </div>
-            )}
+            <p className="text-xs text-accent">Credentials save automatically.</p>
+            <button
+              onClick={async () => {
+                if (!leagueId.trim()) return;
+                setTeamsStatus("Loading teams...");
+                const params = new URLSearchParams({ leagueId: leagueId.trim(), platform: selected });
+                if (espnS2) params.set("espnS2", espnS2);
+                if (swid) params.set("swid", swid);
+                try {
+                  const res = await fetch(`/api/teams?${params}`);
+                  const data = await res.json();
+                  setTeams(data.teams || []);
+                  setTeamsStatus(data.error || `${data.teams?.length || 0} teams found`);
+                } catch {
+                  setTeamsStatus("fetch failed");
+                }
+              }}
+              className="btn-accent"
+            >
+              Load Teams
+            </button>
+            {teamsStatus && <p className="text-xs text-muted">{teamsStatus}</p>}
           </div>
 
-          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Search All Players</h3>
+          <h3 className="font-medium text-sm mb-2">Search All Players</h3>
           <div className="flex gap-2 mb-3">
-            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && doSearch()} placeholder="Type name, last name, or position (Mahomes, Allen, RB)" className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm" />
-            <button onClick={doSearch} disabled={searching} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">{searching ? "..." : "Search"}</button>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && doSearch()}
+              placeholder="Type name, last name, or position"
+              className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            />
+            <button onClick={doSearch} className="btn-accent" disabled={searching}>Search</button>
           </div>
-          <div className="flex flex-wrap gap-2 mb-4 max-h-40 overflow-y-auto">
-            {results.map((p) => (
-              <button key={p.id || p.name} onClick={() => addPlayer(p)} className="px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white hover:border-emerald-500">{p.pos} {p.name} {p.team && `(${p.team})`}</button>
-            ))}
-            {results.length === 0 && search && !searching && (
-              <p className="text-xs text-slate-500">No results. Try another search.</p>
-            )}
-          </div>
-
-          <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Your Lineup ({lineup.length}/9)</h3>
-          <div className="space-y-1 mb-4">
-            {lineup.map((p) => (
-              <div key={p.name} className="flex items-center justify-between text-sm py-1 border-b border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white">
-                <div><span className="font-mono text-xs text-slate-500 dark:text-slate-400 mr-2">{p.pos}</span>{p.name}{p.team && <span className="text-xs text-slate-400 ml-1">({p.team})</span>}</div>
-                <button onClick={() => removePlayer(p.name)} className="text-red-500 text-xs">Remove</button>
-              </div>
-            ))}
-            {lineup.length === 0 && <p className="text-xs text-slate-500 dark:text-slate-400">Search and add players above</p>}
-          </div>
-
-          <button onClick={handleSave} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Save Lineup</button>
-          {saved && <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">Lineup saved.</p>}
+          {results.length > 0 && (
+            <div className="space-y-1 max-h-40 overflow-y-auto">
+              {results.map((p) => (
+                <div key={p.name} className="flex items-center justify-between text-sm py-1">
+                  <span>{p.name} <span className="text-muted text-xs">{p.pos}</span></span>
+                  <button onClick={() => addPlayer(p)} className="text-xs text-accent">Add</button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        <a href="/" className="inline-block mt-4 text-emerald-600 dark:text-emerald-400 text-sm">← Back to Hub</a>
-      </div>
+        <div className="card p-4">
+          <h3 className="font-semibold mb-2">Your Lineup ({lineup.length}/9)</h3>
+          {lineup.length === 0 && <p className="text-xs text-muted">Search and add players above</p>}
+          <div className="space-y-1">
+            {lineup.map((p) => (
+              <div key={p.name} className="flex items-center justify-between text-sm py-1 border-b border-border last:border-0">
+                <div>
+                  <span className="font-medium">{p.name}</span>
+                  <span className="text-xs text-muted ml-2">{p.pos}</span>
+                </div>
+                <button onClick={() => removePlayer(p.name)} className="text-xs text-muted">Remove</button>
+              </div>
+            ))}
+          </div>
+          {lineup.length > 0 && (
+            <button onClick={handleSave} className="btn-accent mt-3">{saved ? "Saved" : "Save Lineup"}</button>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
