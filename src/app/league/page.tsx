@@ -130,13 +130,16 @@ export default function LeaguePage() {
 
           <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Search All Players</h3>
           <div className="flex gap-2 mb-3">
-            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && doSearch()} placeholder="Search name or position" className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm" />
+            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && doSearch()} placeholder="Type name, last name, or position (Mahomes, Allen, RB)" className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm" />
             <button onClick={doSearch} disabled={searching} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">{searching ? "..." : "Search"}</button>
           </div>
           <div className="flex flex-wrap gap-2 mb-4 max-h-40 overflow-y-auto">
             {results.map((p) => (
               <button key={p.id || p.name} onClick={() => addPlayer(p)} className="px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white hover:border-emerald-500">{p.pos} {p.name} {p.team && `(${p.team})`}</button>
             ))}
+            {results.length === 0 && search && !searching && (
+              <p className="text-xs text-slate-500">No results. Try another search.</p>
+            )}
           </div>
 
           <h3 className="font-medium text-sm mb-2 text-slate-900 dark:text-white">Your Lineup ({lineup.length}/9)</h3>
