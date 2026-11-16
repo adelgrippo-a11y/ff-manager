@@ -44,6 +44,8 @@ export default function LeaguePage() {
         setSelected(data.platform || "espn");
       } catch {}
     }
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) document.documentElement.classList.add("dark");
   }, []);
 
   useEffect(() => {
@@ -83,9 +85,20 @@ export default function LeaguePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card px-4 py-3">
-        <a href="/" className="text-accent text-sm">← Back</a>
-        <h1 className="text-xl font-bold mt-1">My Lineup</h1>
+      <header className="border-b border-border bg-card px-4 py-3 flex items-center justify-between">
+        <div>
+          <a href="/" className="text-accent text-sm">← Back</a>
+          <h1 className="text-xl font-bold mt-1">My Lineup</h1>
+        </div>
+        <button
+          onClick={() => {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+          }}
+          className="rounded-full px-3 py-1 text-sm bg-border"
+        >
+          🌙
+        </button>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-4">
         <p className="text-sm text-muted">Connect your league or search players. Saved in this browser.</p>
@@ -198,7 +211,7 @@ export default function LeaguePage() {
             ))}
           </div>
           {lineup.length > 0 && (
-            <button onClick={handleSave} className="btn-accent mt-3">{saved ? "Saved" : "Save Lineup"}</button>
+            <button onClick={handleSave} className="btn-gold mt-3">{saved ? "Saved" : "Save Lineup"}</button>
           )}
         </div>
       </main>

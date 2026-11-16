@@ -12,9 +12,9 @@
 }
 
 .dark {
-  --background: #1A2438;
+  --background: #0B1D3A;
   --foreground: #F7F7F8;
-  --card: #0B1D3A;
+  --card: #1A2438;
   --accent: #1E56FF;
   --accent-hover: #4d7aff;
   --gold: #F2B01E;
@@ -44,6 +44,11 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.dark .card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .btn-accent {
@@ -57,4 +62,13 @@ body {
 
 .btn-accent:hover {
   background: var(--accent-hover);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #0B1D3A;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
