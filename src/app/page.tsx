@@ -176,26 +176,42 @@ export default function Home() {
             </div>
           </section>
 
+          <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+            <h3 className="text-sm font-semibold mb-3">vs Opponent</h3>
+            <div className="space-y-2">
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span>You</span>
+                  <span className="font-medium">{totalCurrent.toFixed(1)} / {totalProj.toFixed(1)}</span>
+                </div>
+                <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.min(100, (totalCurrent / Math.max(totalProj, 1)) * 100)}%` }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span>Opponent</span>
+                  <span className="font-medium">0.0 / 0.0</span>
+                </div>
+                <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-slate-400 rounded-full" style={{ width: "0%" }} />
+                </div>
+              </div>
+            </div>
+            <p className="text-[10px] text-slate-500 mt-2">Opponent data loads once your league is connected.</p>
+          </section>
+
           <section>
-            <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
+            <h3 className="text-lg font-semibold mb-3">Actions</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {quickActions.map((action) => (
-                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-emerald-500 dark:hover:border-emerald-400 transition">
+                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-emerald-500 dark:hover:border-emerald-400 transition text-center">
                   <div className="font-medium text-sm">{action.title}</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{action.desc}</div>
                 </a>
               ))}
             </div>
           </section>
         </main>
-
-        <nav className="lg:hidden sticky bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex justify-around py-2 text-xs z-10">
-          {["League", "Rankings", "Injuries", "Streams", "More"].map((item) => (
-            <a key={item} href={item === "League" ? "/league" : item === "Rankings" ? "/rankings" : item === "Injuries" ? "/injuries" : item === "Streams" ? "/streams" : "#"} className="flex flex-col items-center py-1 px-2 text-slate-600 dark:text-slate-400">
-              {item}
-            </a>
-          ))}
-        </nav>
       </div>
     </div>
   );
