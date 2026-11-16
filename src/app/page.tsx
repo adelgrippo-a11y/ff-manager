@@ -108,11 +108,8 @@ export default function Home() {
 
   const quickActions = [
     { title: "My League", icon: "\ud83c\udfc8", href: myLeagueHref },
-    { title: "Rankings", icon: "\ud83d\udcca", href: "https://www.fantasypros.com/nfl/myplaybook/" },
     { title: "Start / Sit", icon: "\u26a1", href: "https://fantasyfootballstarts.com/" },
-    { title: "Injuries", icon: "\ud83c\udfe5", href: "https://www.nfl.com/injuries/" },
     { title: "Streams", icon: "\ud83d\udcfa", href: "/streams" },
-    { title: "More", icon: "\u22ef", href: "#" },
   ];
 
   return (
@@ -143,39 +140,39 @@ export default function Home() {
         </header>
 
         <main className="flex-1 px-4 py-6 max-w-lg mx-auto w-full space-y-4 pb-20">
-          <section className="card p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold">My Lineup</h2>
-              <span className="text-xs text-muted border border-border rounded-full px-2 py-0.5">Week 11</span>
+          <section className="card p-3">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-base font-bold">My Lineup</h2>
+              <span className="text-[10px] text-muted border border-border rounded-full px-1.5 py-0.5">Week 11</span>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {lineup.map((player) => (
                 <div key={player.pos + player.name} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-accent flex items-center justify-center text-[10px] font-semibold">{player.pos}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-accent flex items-center justify-center text-[9px] font-semibold">{player.pos}</span>
                     <div>
-                      <div className="text-sm font-medium">{player.name}</div>
-                      <div className="text-[10px] text-muted">{player.opp}</div>
+                      <div className="text-xs font-medium">{player.name}</div>
+                      <div className="text-[9px] text-muted">{player.opp}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     <div className="text-right">
-                      <div className="text-sm font-bold text-accent">{player.current}</div>
-                      <div className="text-[9px] text-muted">PTS</div>
+                      <div className="text-xs font-bold text-accent">{player.current}</div>
+                      <div className="text-[8px] text-muted">PTS</div>
                     </div>
-                    <div className="w-4 h-4 rounded-full bg-accent text-white text-[10px] flex items-center justify-center">✓</div>
+                    <div className="w-3.5 h-3.5 rounded-full bg-accent text-white text-[8px] flex items-center justify-center">✓</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-between mt-3 pt-2 border-t border-border text-sm">
+            <div className="flex justify-between mt-2 pt-1.5 border-t border-border text-xs">
               <div>
-                <div className="text-muted text-[10px]">Current</div>
-                <div className="text-lg font-bold text-accent">{totalCurrent.toFixed(1)}</div>
+                <div className="text-muted text-[9px]">Current</div>
+                <div className="font-bold text-accent">{totalCurrent.toFixed(1)}</div>
               </div>
               <div className="text-right">
-                <div className="text-muted text-[10px]">Projected</div>
-                <div className="text-lg font-bold">{totalProj.toFixed(1)}</div>
+                <div className="text-muted text-[9px]">Projected</div>
+                <div className="font-bold">{totalProj.toFixed(1)}</div>
               </div>
             </div>
           </section>
@@ -185,16 +182,16 @@ export default function Home() {
               <h3 className="text-sm font-semibold">vs Opponent</h3>
               <span className="text-xs text-accent">Live</span>
             </div>
-            <div className="flex items-end gap-6 h-24">
-              <div className="flex-1 text-center">
-                <div className="text-xs font-medium mb-1">{totalCurrent.toFixed(1)}</div>
-                <div className="bg-accent rounded-t mx-auto" style={{ height: `${Math.min(100, (totalCurrent / Math.max(totalProj, 1)) * 80)}%`, width: "40px" }} />
-                <div className="text-[10px] text-muted mt-1">You</div>
+            <div className="flex items-end justify-around h-28">
+              <div className="text-center">
+                <div className="text-sm font-bold text-accent mb-1">{totalCurrent.toFixed(1)}</div>
+                <div className="bg-accent rounded-t" style={{ height: `${Math.max(20, Math.min(100, (totalCurrent / Math.max(totalProj, 1)) * 90))}px`, width: "56px" }} />
+                <div className="text-xs text-muted mt-1">You</div>
               </div>
-              <div className="flex-1 text-center">
-                <div className="text-xs font-medium mb-1">0.0</div>
-                <div className="bg-slate-300 dark:bg-slate-600 rounded-t mx-auto" style={{ height: "16%", width: "40px" }} />
-                <div className="text-[10px] text-muted mt-1">Opponent</div>
+              <div className="text-center">
+                <div className="text-sm font-medium mb-1">0.0</div>
+                <div className="bg-slate-300 dark:bg-slate-600 rounded-t" style={{ height: "24px", width: "56px" }} />
+                <div className="text-xs text-muted mt-1">Opponent</div>
               </div>
             </div>
           </section>
@@ -203,8 +200,8 @@ export default function Home() {
             <h3 className="font-semibold mb-3">Quick Actions</h3>
             <div className="grid grid-cols-3 gap-3">
               {quickActions.map((action) => (
-                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="card p-3 text-center hover:border-accent transition">
-                  <div className="text-lg mb-1">{action.icon}</div>
+                <a key={action.title} href={action.href} target={action.href.startsWith("http") ? "_blank" : undefined} rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined} className="card p-4 text-center hover:border-accent transition">
+                  <div className="text-xl mb-1">{action.icon}</div>
                   <div className="text-xs font-medium">{action.title}</div>
                 </a>
               ))}
