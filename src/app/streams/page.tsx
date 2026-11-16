@@ -7,7 +7,10 @@ export default function StreamsPage() {
         <h1 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Streams</h1>
         <p className="text-slate-600 dark:text-slate-300 mb-6">Live games and RedZone.</p>
         <div className="bg-white dark:bg-slate-900 rounded-xl border p-5 space-y-3">
-          <a href="https://www.youtube.com/live/LxJIVjEZJM8" target="_blank" rel="noopener" className="block text-emerald-600 dark:text-emerald-400">Chat Sports RedZone Live →</a>
+          <a href="https://www.youtube.com/live/LxJIVjEZJM8" target="_blank" rel="noopener" className="block text-emerald-600 dark:text-emerald-400 font-medium">
+            Chat Sports RedZone Live →
+          </a>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Opens in the YouTube app so you can lock the screen and keep listening.</p>
           <a href="https://www.nfl.com/plus/" target="_blank" rel="noopener" className="block text-emerald-600 dark:text-emerald-400">NFL+ →</a>
           <a href="https://www.youtube.com/results?search_query=nfl+redzone+live" target="_blank" rel="noopener" className="block text-emerald-600 dark:text-emerald-400">YouTube RedZone search →</a>
         </div>
