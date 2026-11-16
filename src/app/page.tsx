@@ -146,7 +146,7 @@ export default function Home() {
               {lineup.map((player) => (
                 <div key={player.pos + player.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
-                    <span className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-accent flex items-center justify-center text-[8px] font-semibold">{player.pos}</span>
+                    <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 text-accent flex items-center justify-center text-[8px] font-semibold">{player.pos}</span>
                     <div>
                       <div className="text-[11px] font-medium">{player.name}</div>
                       <div className="text-[8px] text-muted">{player.opp}</div>
