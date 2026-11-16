@@ -89,7 +89,7 @@ export default function Home() {
   const totalCurrent = lineup.reduce((sum, p) => sum + p.current, 0);
 
   const quickActions = [
-    { title: "Power Rankings", desc: "See where you stand", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
+    { title: "Power Rankings", desc: "See where you stand", href: "https://www.fantasypros.com/nfl/myplaybook/" },
     { title: "Start / Sit", desc: "Optimize your lineup", href: "https://fantasyfootballstarts.com/" },
     { title: "ROS Rankings", desc: "Rest of season outlook", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php" },
     { title: "NFL Injuries", desc: "Latest updates", href: "https://www.nfl.com/injuries/" },
