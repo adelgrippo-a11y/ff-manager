@@ -39,10 +39,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur px-4 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-accent">FF Manager</h1>
-          <p className="text-xs text-muted mt-0.5">Fantasy hub</p>
+      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <img src="/logo.jpg" alt="FF Manager" className="w-10 h-10 rounded-xl object-cover" />
+          <div>
+            <h1 className="text-lg font-bold tracking-tight text-accent">FF Manager</h1>
+            <p className="text-[11px] text-muted">Fantasy hub</p>
+          </div>
         </div>
         <button
           onClick={toggleTheme}
