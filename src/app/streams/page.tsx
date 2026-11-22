@@ -13,12 +13,11 @@ export default function StreamsPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <a href="/" className="text-accent text-lg">Back</a>
-          <img src="/logo.svg" alt="" className="w-7 h-7 rounded-md" />
+        <div className="flex items-center gap-3">
+          <a href="/" className="text-accent">Back</a>
           <h1 className="text-lg font-bold">Streams</h1>
         </div>
-        <button onClick={() => { const isDark = document.documentElement.classList.toggle("dark"); localStorage.setItem("theme", isDark ? "dark" : "light"); }} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-base">Theme</button>
+        <button onClick={() => { const isDark = document.documentElement.classList.toggle("dark"); localStorage.setItem("theme", isDark ? "dark" : "light"); }} className="px-3 py-1 rounded-full bg-border text-sm">Theme</button>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-3">
         {creators.map((c) => (
@@ -32,7 +31,7 @@ export default function StreamsPage() {
         ))}
         <div className="card p-3">
           <div className="text-sm font-medium mb-2">Custom URL</div>
-          <input type="url" placeholder="Paste link" className="w-full rounded border border-border bg-background px-2 py-1 text-sm" onKeyDown={(e) => { if (e.key === "Enter" && e.target.value) window.open(e.target.value, "_blank"); }} />
+          <input type="url" placeholder="Paste link" className="w-full rounded border border-border bg-background px-2 py-1 text-sm" onKeyDown={(e) => { const input = e.target as HTMLInputElement; if (e.key === "Enter" && input.value) window.open(input.value, "_blank"); }} />
         </div>
       </main>
     </div>

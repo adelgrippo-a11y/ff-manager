@@ -19,8 +19,7 @@ export default function Home() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const isDark = localStorage.getItem("theme") === "dark" ||
-      (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const isDark = localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
     if (isDark) document.documentElement.classList.add("dark");
   }, []);
@@ -28,20 +27,15 @@ export default function Home() {
   const toggleTheme = () => {
     const next = !dark;
     setDark(next);
-    if (next) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
+    if (next) { document.documentElement.classList.add("dark"); localStorage.setItem("theme", "dark"); }
+    else { document.documentElement.classList.remove("dark"); localStorage.setItem("theme", "light"); }
   };
 
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 border-b border-border bg-card px-4 h-14 flex items-center justify-between">
         <h1 className="text-lg font-bold text-accent">FF Manager</h1>
-        <button onClick={toggleTheme} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-sm">Theme</button>
+        <button onClick={toggleTheme} className="px-3 py-1 rounded-full bg-border text-sm">Theme</button>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto">
         <div className="grid grid-cols-2 gap-3">
