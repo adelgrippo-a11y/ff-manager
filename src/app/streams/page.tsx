@@ -1,6 +1,7 @@
 "use client";
 
 const creators = [
+  { name: "NFL Streams (StreamEast)", href: "https://v2.streameast.ga/nfl-streams/", thumb: "" },
   { name: "Chat Sports RedZone", href: "https://www.youtube.com/live/LxJIVjEZJM8", thumb: "https://i.ytimg.com/vi/LxJIVjEZJM8/hqdefault.jpg" },
   { name: "Fantasy Footballers", href: "https://www.youtube.com/@TheFantasyFootballers", thumb: "https://yt3.ggpht.com/ytc/AIdro_n5vQ=s88" },
   { name: "Sal Vetri", href: "https://www.youtube.com/@SalVetri", thumb: "https://yt3.ggpht.com/ytc/AIdro_n5vQ=s88" },
@@ -29,10 +30,10 @@ export default function StreamsPage() {
       <main className="px-4 py-6 max-w-lg mx-auto space-y-3">
         {creators.map((c) => (
           <a key={c.name} href={c.href} target="_blank" rel="noopener" className="card p-3 flex items-center gap-3 hover:border-accent transition">
-            <img src={c.thumb} alt="" className="w-16 h-12 rounded object-cover bg-border" />
+            {c.thumb ? <img src={c.thumb} alt="" className="w-16 h-12 rounded object-cover bg-border" /> : <div className="w-16 h-12 rounded bg-border flex items-center justify-center text-xs">📺</div>}
             <div>
               <div className="font-medium text-sm">{c.name}</div>
-              <div className="text-xs text-muted">Open in YouTube</div>
+              <div className="text-xs text-muted">Open</div>
             </div>
           </a>
         ))}
@@ -40,7 +41,7 @@ export default function StreamsPage() {
           <div className="text-sm font-medium mb-2">Custom URL</div>
           <input
             type="url"
-            placeholder="Paste YouTube link"
+            placeholder="Paste YouTube or stream link"
             className="w-full rounded border border-border bg-background px-2 py-1 text-sm"
             onKeyDown={(e) => {
               if (e.key === "Enter" && (e.target as HTMLInputElement).value) {
