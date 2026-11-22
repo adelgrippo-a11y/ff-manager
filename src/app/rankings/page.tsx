@@ -3,20 +3,9 @@
 export default function RankingsPage() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card px-4 py-3 flex items-center justify-between">
-        <div>
-          <a href="/" className="text-accent text-sm">← Back</a>
-          <h1 className="text-xl font-bold mt-1">Rankings</h1>
-        </div>
-        <button
-          onClick={() => {
-            const isDark = document.documentElement.classList.toggle("dark");
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-          }}
-          className="rounded-full px-3 py-1 text-sm bg-border"
-        >
-          🌙
-        </button>
+      <header className="border-b border-border bg-card px-4 h-14 flex items-center">
+        <a href="/" className="text-accent text-sm font-medium">\u2190 Back</a>
+        <h1 className="text-lg font-bold ml-3">Rankings</h1>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-4">
         <a href="https://www.fantasypros.com/nfl/myplaybook/" target="_blank" rel="noopener" className="card p-4 block hover:border-accent transition">

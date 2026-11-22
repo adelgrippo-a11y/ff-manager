@@ -12,13 +12,9 @@ const creators = [
 export default function StreamsPage() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <a href="/" className="text-accent text-sm font-medium">\u2190 Back</a>
-          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-white text-[10px] font-bold">FF</div>
-          <h1 className="text-lg font-bold">Streams</h1>
-        </div>
-        <button onClick={() => { const isDark = document.documentElement.classList.toggle("dark"); localStorage.setItem("theme", isDark ? "dark" : "light"); }} className="px-3 py-1.5 rounded-full bg-border text-sm font-medium">Theme</button>
+      <header className="border-b border-border bg-card px-4 h-14 flex items-center">
+        <a href="/" className="text-accent text-sm font-medium">\u2190 Back</a>
+        <h1 className="text-lg font-bold ml-3">Streams</h1>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-3">
         {creators.map((c) => (
