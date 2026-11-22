@@ -13,8 +13,9 @@ export default function StreamsPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <a href="/" className="text-accent text-lg">Back</a>
+          <img src="/logo.svg" alt="" className="w-7 h-7 rounded-md" />
           <h1 className="text-lg font-bold">Streams</h1>
         </div>
         <button onClick={() => { const isDark = document.documentElement.classList.toggle("dark"); localStorage.setItem("theme", isDark ? "dark" : "light"); }} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-base">Theme</button>
