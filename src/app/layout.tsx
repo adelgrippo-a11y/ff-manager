@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     title: "FF Manager",
   },
   icons: {
-    icon: "/icon-192.svg",
-    apple: "/icon-192.svg",
+    icon: "/icon-192.jpg",
+    apple: "/icon-192.jpg",
   },
 };
 
