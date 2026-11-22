@@ -34,13 +34,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 border-b border-border bg-card px-4 h-14 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-accent">FF Manager</h1>
-        <button onClick={toggleTheme} className="px-3 py-1 rounded-full bg-border text-sm">Theme</button>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white text-xs font-bold">FF</div>
+          <h1 className="text-lg font-bold text-foreground">FF Manager</h1>
+        </div>
+        <button onClick={toggleTheme} className="px-3 py-1.5 rounded-full bg-border text-sm font-medium">{dark ? "Light" : "Dark"}</button>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto">
         <div className="grid grid-cols-2 gap-3">
           {links.map((link) => (
-            <a key={link.title} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener" : undefined} className="card group flex flex-col items-center justify-center text-center p-5 min-h-[120px] hover:border-accent hover:shadow-md transition-all active:scale-[0.98]">
+            <a key={link.title} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener" : undefined} className="card flex flex-col items-center justify-center text-center p-5 min-h-[120px] hover:border-accent transition-all active:scale-[0.98]">
               <span className="text-3xl mb-2">{link.icon}</span>
               <div className="font-semibold text-sm leading-tight">{link.title}</div>
               <div className="text-[11px] text-muted mt-1 leading-tight">{link.desc}</div>
