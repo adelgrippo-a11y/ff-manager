@@ -19,6 +19,7 @@ export default function LeaguePage() {
   const [leagueId, setLeagueId] = useState("");
   const [espnS2, setEspnS2] = useState("");
   const [swid, setSwid] = useState("");
+  const [connectStatus, setConnectStatus] = useState("");
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Player[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
@@ -26,8 +27,23 @@ export default function LeaguePage() {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
+    if (window.location.hash.startsWith("#import=")) {
+      try {
+        const raw = decodeURIComponent(window.location.hash.slice(8));
+        const data = JSON.parse(raw);
+        if (data.lineup?.length) {
+          setLineup(data.lineup);
+          setSelected(data.platform || "espn");
+          if (data.leagueId) setLeagueId(data.leagueId);
+          localStorage.setItem("ffLineup", JSON.stringify({ platform: data.platform || "espn", lineup: data.lineup }));
+          window.history.replaceState(null, "", window.location.pathname);
+          setConnectStatus(`Loaded ${data.teamName || "roster"} from ESPN`);
+        }
+      } catch {}
+    }
+
     const storedLineup = localStorage.getItem("ffLineup");
-    if (storedLineup) {
+    if (storedLineup && !window.location.hash.startsWith("#import=")) {
       try {
         const data = JSON.parse(storedLineup);
         setSelected(data.platform || "espn");
@@ -44,8 +60,6 @@ export default function LeaguePage() {
         setSelected(data.platform || "espn");
       } catch {}
     }
-    const isDark = localStorage.getItem("theme") === "dark";
-    if (isDark) document.documentElement.classList.add("dark");
   }, []);
 
   useEffect(() => {
@@ -64,10 +78,21 @@ export default function LeaguePage() {
     setSaved(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     localStorage.setItem("ffLineup", JSON.stringify({ platform: selected, lineup }));
     window.dispatchEvent(new Event("storage"));
     setSaved(true);
+    try {
+      const sessionRes = await fetch("/api/auth/session");
+      const session = await sessionRes.json();
+      if (session?.user?.id) {
+        await fetch("/api/sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: session.user.id, lineup, creds: { platform: selected, leagueId, espnS2, swid } }),
+        });
+      }
+    } catch {}
   };
 
   const doSearch = async () => {
@@ -102,6 +127,7 @@ export default function LeaguePage() {
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-4">
         <p className="text-sm text-muted">Connect your league or search players. Saved in this browser.</p>
+        {connectStatus && <p className="text-sm text-accent">{connectStatus}</p>}
 
         <div className="card p-4">
           <h2 className="font-semibold mb-3">Platform</h2>
@@ -210,7 +236,7 @@ export default function LeaguePage() {
 
         <div className="card p-4">
           <h3 className="font-semibold mb-2">Your Lineup ({lineup.length}/9)</h3>
-          {lineup.length === 0 && <p className="text-xs text-muted">Search and add players above</p>}
+          {lineup.length === 0 && <p className="text-xs text-muted">Search and add players above, or use the ESPN extension</p>}
           <div className="space-y-1">
             {lineup.map((p) => (
               <div key={p.name} className="flex items-center justify-between text-sm py-1 border-b border-border last:border-0">
