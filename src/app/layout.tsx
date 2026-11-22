@@ -16,6 +16,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FF Manager",
   description: "Your fantasy football companion",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "FF Manager",
+  },
+  icons: {
+    icon: "/icon-192.jpg",
+    apple: "/icon-192.jpg",
+  },
 };
 
 export default function RootLayout({

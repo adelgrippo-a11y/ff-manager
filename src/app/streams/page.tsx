@@ -13,7 +13,7 @@ export default function StreamsPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card px-4 h-14 flex items-center">
-        <a href="/" className="text-accent text-sm font-medium">\u2190 Back</a>
+        <a href="/" className="text-accent text-sm font-medium">Back</a>
         <h1 className="text-lg font-bold ml-3">Streams</h1>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto space-y-3">
