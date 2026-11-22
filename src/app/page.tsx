@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 
 const links = [
-  { title: "My League", href: "https://fantasy.espn.com/football/", icon: "\ud83c\udfc8", desc: "Open your ESPN league" },
-  { title: "Power Rankings", href: "https://www.fantasypros.com/nfl/myplaybook/", icon: "\ud83d\udcca", desc: "FantasyPros My Playbook" },
+  { title: "My League", href: "https://fantasy.espn.com/football/team?leagueId=539752", icon: "\ud83c\udfc8", desc: "Open your ESPN league (ID 539752)" },
+  { title: "Power Rankings", href: "https://www.fantasypros.com/nfl/myplaybook/matchup.php", icon: "\ud83d\udcca", desc: "FantasyPros Matchup (opens in new tab)" },
   { title: "Start / Sit Tool", href: "https://fantasyfootballstarts.com/", icon: "\u26a1", desc: "Start/sit advice" },
   { title: "ROS Rankings", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php", icon: "\ud83d\udcc8", desc: "Rest of season rankings" },
   { title: "Official NFL Injuries", href: "https://www.nfl.com/injuries/", icon: "\ud83c\udfe5", desc: "NFL injury report" },
