@@ -40,13 +40,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 border-b border-border bg-card px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="" className="w-8 h-8 rounded-lg" />
-          <h1 className="text-lg font-bold text-accent">FF Manager</h1>
-        </div>
-        <button onClick={toggleTheme} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-base">
-          {dark ? "sun" : "moon"}
-        </button>
+        <h1 className="text-lg font-bold text-accent">FF Manager</h1>
+        <button onClick={toggleTheme} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-sm">Theme</button>
       </header>
       <main className="px-4 py-6 max-w-lg mx-auto">
         <div className="grid grid-cols-2 gap-3">
