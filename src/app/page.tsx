@@ -3,16 +3,16 @@
 import { useState, useEffect } from "react";
 
 const links = [
-  { title: "My League", href: "https://fantasy.espn.com/football/team?leagueId=539752", icon: "\ud83c\udfc8", desc: "Open your ESPN league (ID 539752)" },
+  { title: "My League", href: "https://fantasy.espn.com/football/team?leagueId=539752", icon: "\ud83c\udfc8", desc: "ESPN League 539752" },
   { title: "Power Rankings", href: "https://www.fantasypros.com/nfl/myplaybook/", icon: "\ud83d\udcca", desc: "FantasyPros My Playbook" },
-  { title: "Matchup", href: "https://www.fantasypros.com/nfl/myplaybook/matchup.php", icon: "\u2694\ufe0f", desc: "FantasyPros Matchup view" },
-  { title: "Start / Sit Tool", href: "https://fantasyfootballstarts.com/", icon: "\u26a1", desc: "Start/sit advice" },
-  { title: "ROS Rankings", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php", icon: "\ud83d\udcc8", desc: "Rest of season rankings" },
-  { title: "Official NFL Injuries", href: "https://www.nfl.com/injuries/", icon: "\ud83c\udfe5", desc: "NFL injury report" },
+  { title: "Matchup", href: "https://www.fantasypros.com/nfl/myplaybook/matchup.php", icon: "\u2694\ufe0f", desc: "FantasyPros Matchup" },
+  { title: "Start / Sit", href: "https://fantasyfootballstarts.com/", icon: "\u26a1", desc: "Start/sit advice" },
+  { title: "ROS Rankings", href: "https://www.fantasypros.com/nfl/rankings/ros-overall.php", icon: "\ud83d\udcc8", desc: "Rest of season" },
+  { title: "NFL Injuries", href: "https://www.nfl.com/injuries/", icon: "\ud83c\udfe5", desc: "Official injury report" },
   { title: "NFL Games", href: "https://www.nfl.com/schedules/", icon: "\ud83d\udcc5", desc: "Schedule & scores" },
-  { title: "Stream Games Live", href: "/streams", icon: "\ud83d\udcfa", desc: "RedZone & streams" },
-  { title: "NFL Highlights", href: "https://www.nfl.com/videos/", icon: "\ud83c\udfac", desc: "Official highlights" },
-  { title: "NFL Feed on X", href: "https://x.com/NFL", icon: "\ud83d\udc26", desc: "Live NFL on X" },
+  { title: "Stream Games", href: "/streams", icon: "\ud83d\udcfa", desc: "RedZone & live streams" },
+  { title: "Highlights", href: "https://www.nfl.com/videos/", icon: "\ud83c\udfac", desc: "Official NFL highlights" },
+  { title: "NFL on X", href: "https://x.com/NFL", icon: "\ud83d\udc26", desc: "Live NFL feed" },
 ];
 
 export default function Home() {
@@ -39,31 +39,32 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-accent">FF Manager</h1>
-        <button onClick={toggleTheme} className="rounded-full px-3 py-1 text-sm bg-border">
+      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur px-4 py-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-accent">FF Manager</h1>
+          <p className="text-xs text-muted mt-0.5">Fantasy hub</p>
+        </div>
+        <button
+          onClick={toggleTheme}
+          className="w-10 h-10 rounded-full bg-border flex items-center justify-center text-lg"
+        >
           {dark ? "\u2600\ufe0f" : "\ud83c\udf19"}
         </button>
       </header>
 
       <main className="px-4 py-6 max-w-lg mx-auto">
-        <p className="text-sm text-muted mb-6">Your fantasy football hub</p>
-
-        <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-3">
           {links.map((link) => (
             <a
               key={link.title}
               href={link.href}
               target={link.href.startsWith("http") ? "_blank" : undefined}
               rel={link.href.startsWith("http") ? "noopener" : undefined}
-              className="card flex items-center gap-4 p-4 hover:border-accent transition-colors"
+              className="card group flex flex-col items-center justify-center text-center p-5 min-h-[120px] hover:border-accent hover:shadow-md transition-all active:scale-[0.98]"
             >
-              <span className="text-2xl">{link.icon}</span>
-              <div className="flex-1">
-                <div className="font-semibold">{link.title}</div>
-                <div className="text-xs text-muted">{link.desc}</div>
-              </div>
-              <span className="text-muted">\u2192</span>
+              <span className="text-3xl mb-2">{link.icon}</span>
+              <div className="font-semibold text-sm leading-tight">{link.title}</div>
+              <div className="text-[11px] text-muted mt-1 leading-tight">{link.desc}</div>
             </a>
           ))}
         </div>
