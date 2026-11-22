@@ -39,32 +39,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src="/logo.jpg" alt="FF Manager" className="w-10 h-10 rounded-xl object-cover" />
-          <div>
-            <h1 className="text-lg font-bold tracking-tight text-accent">FF Manager</h1>
-            <p className="text-[11px] text-muted">Fantasy hub</p>
-          </div>
-        </div>
-        <button
-          onClick={toggleTheme}
-          className="w-10 h-10 rounded-full bg-border flex items-center justify-center text-lg"
-        >
-          {dark ? "\u2600\ufe0f" : "\ud83c\udf19"}
+      <header className="sticky top-0 z-10 border-b border-border bg-card px-4 h-14 flex items-center justify-between">
+        <h1 className="text-lg font-bold text-accent">FF Manager</h1>
+        <button onClick={toggleTheme} className="w-9 h-9 rounded-full bg-border flex items-center justify-center text-base">
+          {dark ? "sun" : "moon"}
         </button>
       </header>
-
       <main className="px-4 py-6 max-w-lg mx-auto">
         <div className="grid grid-cols-2 gap-3">
           {links.map((link) => (
-            <a
-              key={link.title}
-              href={link.href}
-              target={link.href.startsWith("http") ? "_blank" : undefined}
-              rel={link.href.startsWith("http") ? "noopener" : undefined}
-              className="card group flex flex-col items-center justify-center text-center p-5 min-h-[120px] hover:border-accent hover:shadow-md transition-all active:scale-[0.98]"
-            >
+            <a key={link.title} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener" : undefined} className="card group flex flex-col items-center justify-center text-center p-5 min-h-[120px] hover:border-accent hover:shadow-md transition-all active:scale-[0.98]">
               <span className="text-3xl mb-2">{link.icon}</span>
               <div className="font-semibold text-sm leading-tight">{link.title}</div>
               <div className="text-[11px] text-muted mt-1 leading-tight">{link.desc}</div>
